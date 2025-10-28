@@ -1,0 +1,47 @@
+<div class="logohome"><a href="https://skrpg.forumcommunity.net/"><div class="logohome2">Seven Kingdoms</div></a></div> 
+ 
+ 
+ 
+<!--This is a custom jank implimentation a banner at the top of the main page--> 
+<script type="text/javascript"> 
+ 
+ 
+ 
+ 
+ 
+try { 
+ let selectors = [ 
+ "#board > div.container > div.logohome > a > div", 
+ "#forum > div.container > div.logohome > a > div", 
+ "#topic > div.container > div.logohome > a > div", 
+ "#profile > div.container > div.logohome > a > div", 
+ "#msg > div.container > div.logohome > a > div" 
+ ]; 
+ 
+ let target = null; 
+ 
+ for (let selector of selectors) { 
+ target = document.querySelector(selector); 
+ if (target) break; 
+ } 
+ 
+ if (target) { 
+ let img = document.createElement('img'); 
+ img.src = 'https://i.gyazo.com/4e97da1ab18f6ae63925ba72724bd7f6.png'; 
+ img.style.width = '100%'; 
+ img.style.display = 'block'; 
+ img.style.marginBottom = '20px'; 
+ img.style.marginTop = '20px'; 
+ target.parentNode.insertBefore(img, target.nextSibling); 
+ 
+ target.remove(); 
+ } 
+ 
+} catch (e) { 
+ console.warn('Failed to insert image below target', e); 
+} 
+ 
+ 
+ 
+ 
+</script>

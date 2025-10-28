@@ -1,0 +1,293 @@
+<!--Admins dont leave edit messages--> 
+ <script type="text/javascript"> 
+ const adminNames = ['Radv', 'Lúminare', 'Shinka','Saiyuki','Shinka','Indra','ghvstly','Dormagus','Dormagus','ScaryBill','DarthSaren','Neitel']; 
+ 
+const edits = document.getElementsByClassName('edit'); 
+ 
+for (let i = 0; i < edits.length; i++) { 
+ const el = edits[i]; 
+ const text = el.innerText || el.textContent; 
+ 
+ for (const name of adminNames) { 
+ if (text.includes(name)) { 
+ el.style.display = 'none'; 
+ break; 
+ } 
+ } 
+} 
+ 
+ </script> 
+ 
+<!--Custom thread banners and Ad removal--> 
+ <script type="text/javascript"> 
+ try { 
+ let targets = [ 
+ ['#c9154341 > table > tbody > tr > td.mback_center > h2', 'https://i.gyazo.com/653c40a7d94f5b919f229e7cd34b8a02.png'], 
+ ['#c9124858 > table > tbody > tr > td.mback_center > h2', 'https://i.gyazo.com/a721b7bcc233be04efc161ac6737e0df.png'], 
+ ['#c9125015 > table > tbody > tr > td.mback_center > h2', 'https://i.gyazo.com/6f2b7481db3bbddc6168ad6fdabced71.png'], 
+ ['#c9125023 > table > tbody > tr > td.mback_center > h2', 'https://i.gyazo.com/4d740dfdf9e8eb8fc3518263a5b64ab2.png'] 
+ ]; 
+ 
+ 
+ 
+ targets.forEach(([selector, url]) => { 
+ try { 
+ document.querySelectorAll(selector).forEach(el => { 
+ el.style.position = 'relative'; 
+ el.style.zIndex = '1'; 
+ el.style.background = 'transparent'; 
+ 
+ let textNode = el.childNodes[el.childNodes.length - 1]; 
+ if (textNode && textNode.nodeType === Node.TEXT_NODE) { 
+ let span = document.createElement('span'); 
+ span.style.position = 'relative'; 
+ span.style.zIndex = '1'; 
+ span.textContent = textNode.textContent.trim(); 
+ el.replaceChild(span, textNode); 
+ } 
+ 
+ let img = document.createElement('img'); 
+ img.src = url; 
+ img.style.position = 'absolute'; 
+ img.style.top = '-4px'; 
+ img.style.left = '0'; 
+ img.style.width = '100%'; 
+ img.style.height = '100%'; 
+ img.style.zIndex = '0'; 
+ img.style.objectFit = 'cover'; 
+ el.prepend(img); 
+ }); 
+ } catch (err) { 
+ console.warn('Overlay image failed for selector:', selector, err); 
+ } 
+ }); 
+ 
+ 
+ 
+ 
+ 
+ } catch (e) { 
+ console.warn('Top-level failure:', e); 
+ } finally { 
+null 
+ }; 
+ 
+ 
+ //Ad Removal 
+ 
+ try{ 
+ document.querySelector('#topic > div.footer > div:nth-child(2)').remove() 
+ } catch (error) { 
+ console.error(error); 
+} 
+ try{ 
+ document.querySelector('#board > div.footer > div:nth-child(2)').remove() 
+ } catch (error) { 
+ console.error(error); 
+} 
+ try{ 
+ document.querySelector('#forum > div.footer > div:nth-child(2)').remove() 
+ } catch (error) { 
+ console.error(error); 
+} 
+try{ 
+ document.querySelector('#profile > div.footer > div:nth-child(2)').remove() 
+ } catch (error) { 
+ console.error(error); 
+} 
+try{ 
+ document.querySelector('#msg > div.footer > div:nth-child(2)').remove() 
+ } catch (error) { 
+ console.error(error); 
+} 
+try{ 
+ document.querySelector('#send > div.footer > div:nth-child(2)').remove() 
+ } catch (error) { 
+ console.error(error); 
+} 
+ try{ 
+ document.querySelector("#ffAdStart").remove() 
+ } catch (error) { 
+ console.error(error); 
+} 
+ 
+ //Persistant HTML. Edits will not work 
+ 
+ </script> 
+ 
+ 
+ 
+ 
+ <script type="text/javascript"> 
+ 
+(function initGlowScript() { 
+	 const style = document.createElement("style"); 
+	 style.textContent = ` 
+	 .username-highlight { 
+	 font-weight: bold; 
+	 position: relative; 
+	 display: inline-block; 
+	 } 
+	 
+	 .group-coordination { color: #15cdfa !important; } 
+	 .group-moderation { color: #fa3d3d !important; } 
+	 .group-game { color: #ffd942 !important; } 
+	 .group-documents { color: #2d7aff !important; } 
+	 .group-graphics { color: #9955ff !important; } 
+	 .group-default { color: #ccc !important; } 
+	 .group-administrator { color: #5783C0 !important; } 
+	 
+	 @keyframes shimmerMove { 
+	 0% { background-position: 0% center; } 
+	 100% { background-position: 200% center; } 
+	 } 
+	 
+	 .shimmer-effect { 
+	 background: linear-gradient(90deg, #5783C0, white, #5783C0); 
+	 background-size: 200% auto; 
+	 -webkit-background-clip: text; 
+	 -webkit-text-fill-color: transparent; 
+	 animation: shimmerMove 3s linear infinite; 
+	 } 
+	 `; 
+	 document.head.appendChild(style); 
+	 
+	 const EFFECTS = { 
+	 administrator: "flatglow", 
+	 "coordinación": "flatglow", 
+	 coordination: "flatglow", 
+	 moderation: "flatglow", 
+	 "moderación": "flatglow", 
+	 game: "none", 
+	 documents: "flatglow", 
+	 "técnico de documentos": "flatglow", 
+	 "diseño gráfico": "shimmer", 
+	 default: "none" 
+	 }; 
+	 
+	 const messages = document.querySelectorAll("div.skin_tbl > div > ol > li"); 
+	 
+	 messages.forEach(function(message, index) { 
+	 const userElement = message.querySelector(".nick a"); 
+	 const groupElement = message.querySelector("dl.u_group dd"); 
+	 
+	 if (!userElement || !groupElement) { 
+	 console.warn("Skipped message " + index + " — username or group not found."); 
+	 return; 
+	 } 
+	 
+	 const group = groupElement.textContent.trim().toLowerCase(); 
+	 const username = userElement.textContent.trim(); 
+	 console.log("Message " + index + ": User = " + username + " | Group = " + group); 
+	 
+	 const wrapper = document.createElement("span"); 
+	 wrapper.className = "username-highlight"; 
+	 
+	 const inner = document.createElement("span"); 
+	 inner.textContent = username; 
+	 
+	 let classGroup = "group-default"; 
+	 let glowColor = "#ccc"; 
+	 
+	 if (group.includes("administrator")) { 
+	 classGroup = "group-administrator"; 
+	 glowColor = "#5783C0"; 
+	 } else if (group.includes("coordination") || group.includes("coordinación") ) { 
+	 classGroup = "group-coordination"; glowColor = "#15cdfa"; 
+	 } else if (group.includes("moderation") || group.includes("moderación")) { 
+	 classGroup = "group-moderation"; glowColor = "#fa3d3d"; 
+	 } else if (group.includes("game")) { 
+	 classGroup = "group-game"; glowColor = "#ffd942"; 
+	 } else if (group.includes("documents") || group.includes("técnico de documentos")) { 
+	 classGroup = "group-documents"; glowColor = "#2d7aff"; 
+	 } else if (group.includes("graphic") || group.includes("diseño gráfico")) { 
+	 classGroup = "group-graphics"; glowColor = "#9955ff"; 
+	 } 
+	 
+	 inner.classList.add(classGroup); 
+	 wrapper.appendChild(inner); 
+	 userElement.textContent = ""; 
+	 userElement.appendChild(wrapper); 
+	 
+	 const effectKey = Object.keys(EFFECTS).find(function(key) { return group.includes(key); }) || "default"; 
+	 const effect = EFFECTS[effectKey]; 
+	 const jqfx = window[Object.keys(window).find(function(k) { return typeof window[k] === 'function' && window[k].fn && window[k].fn.jquery; })]; 
+	 applyEffectWithjQuery(jqfx(inner), effect, glowColor); 
+	 }); 
+	})(); 
+	 
+ 
+	function applyEffectWithjQuery(jqel, effect, color) { 
+	 switch (effect) { 
+	 case "pulse": 
+	 var brightness = 1; 
+	 var increasing = true; 
+	 setInterval(function () { 
+	 if (increasing) { 
+	 brightness += 0.1; 
+	 if (brightness >= 1.6) increasing = false; 
+	 } else { 
+	 brightness -= 0.1; 
+	 if (brightness <= 1.0) increasing = true; 
+	 } 
+	 jqel.css({ 
+	 filter: "brightness(" + brightness + ")", 
+	 textShadow: "0 0 6px " + color + ", 0 0 10px " + color 
+	 }); 
+	 }, 100); 
+	 break; 
+	 
+	 case "shimmer": 
+	 jqel.addClass("shimmer-effect"); 
+	 break; 
+	 
+	 case "flatglow": 
+	 jqel.css({ 
+	 textShadow: "0 0 5px " + color + ", 0 0 10px " + color + ", 0 0 15px " + color 
+	 }); 
+	 break; 
+ 
+	 case "glitch": 
+	 function glitch() { 
+	 jqel.css({ 
+	 textShadow: "0 0 4px " + color + ", 0 0 8px " + color + ", 0 0 12px black", 
+	 transform: "translate(" + (Math.random() * 4 - 2) + "px, " + (Math.random() * 4 - 2) + "px)", 
+	 opacity: 0.8 + Math.random() * 0.2 
+	 }); 
+	 setTimeout(glitch, 100); 
+	 } 
+	 glitch(); 
+	 break; 
+	 
+	case "fade": 
+	 jqel.css({ 
+	 color: color, // ensure color is set initially 
+	 textShadow: "0 0 6px " + color + ", 0 0 12px " + color // add glow 
+	 }); 
+ 
+	 function loopFade() { 
+	 jqel.fadeTo(1000, 0.3).fadeTo(1000, 1.0, loopFade); 
+	 } 
+	 loopFade(); 
+ 
+	 jqel.on("mouseenter", function () { 
+	 jqel.stop().animate({ fontSize: '110%' }, 200).animate({ fontSize: '100%' }, 200); 
+	 }); 
+	 break; 
+	 
+	 case "wave": 
+	 function wave() { 
+	 jqel.animate({ top: '-3px' }, 400) 
+	 .animate({ top: '3px' }, 400) 
+	 .animate({ top: '0px' }, 400, wave); 
+	 } 
+	 jqel.css('position', 'relative'); 
+	 wave(); 
+	 break; 
+	 
+	 default: 
+	 break; 
+	 } 
+	} 
+ 
+ </script>
